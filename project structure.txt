@@ -1,0 +1,25 @@
+Food Truck Finder Project Structure (Production-Ready)This structure separates concerns into distinct directories for configuration, database logic, API services, and deployment, adhering to modern Python and API development best practices.food-truck-finder/
+├── app/
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── trucks.py      # Contains FastAPI Router for all /trucks endpoints (Nearby, Update, etc.)
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py      # Environment variables and settings (e.g., Redis credentials, database URL)
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── database.py    # Asynchronous DB engine setup (from our current database.py)
+│   │   ├── schemas.py     # Pydantic models for data validation (from our current schemas.py)
+│   │   ├── services.py    # Functions that contain the actual PostGIS SQL queries
+│   │   └── redis.py       # Redis connection and logic for caching/PubSub
+│   └── main.py            # Main FastAPI application entry point (combines routers and handles middleware)
+├── migrations/
+│   └── versions/          # Directory containing database migration scripts
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py        # Pytest fixtures (e.g., mock DB sessions, test client)
+│   └── test_trucks.py     # Tests for the geospatial search endpoint
+├── Dockerfile             # Defines the Docker image for the FastAPI server
+├── docker-compose.yml     # For local development (starts FastAPI, Postgres/PostGIS, and Redis)
+├── postgis_schema.sql     # Initial database schema setup (our created SQL file)
+└── requirements.txt       # Python dependencies (fastapi, uvicorn, sqlalchemy, etc.)

@@ -1,0 +1,20 @@
+fastapi == 0.117.1
+uvicorn[standard] == 0.37.0
+gunicorn==23.0.0
+pydantic == 2.11.9
+pydantic-settings == 2.11.0      # For config.py (handling environment variables)
+python-jose[cryptography] == 3.5.0  # For JWT authentication
+passlib[bcrypt] == 1.7.4          # For password hashing
+websockets==15.0.1
+pydantic[email] == 2.11.9
+python-multipart
+bcrypt==3.2.2
+
+# Database (PostgreSQL/PostGIS)
+sqlalchemy == 2.0.43
+gunicorn == 23.0.0
+asyncpg == 0.30.0                    # Asynchronous PostgreSQL driver
+geoalchemy2 == 0.18.0                # For PostGIS data types (Geometry)
+
+# Caching and Real-time (Redis)
+redis[hiredis]==6.4.0 # Asynchronous Redis client

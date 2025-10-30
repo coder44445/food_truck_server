@@ -1,0 +1,47 @@
+services:
+
+  # ----------------------------------------------------
+  # 1. PostgreSQL Database with PostGIS
+  # ----------------------------------------------------
+  db:
+    image: postgis/postgis:15-3.3-alpine  # Lightweight image with Postgres 15 and PostGIS 3.3
+    container_name: foodtrucks_db
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      # Mount a script to initialize the PostGIS extension on startup
+      - ./postgis_schema.sql:/docker-entrypoint-initdb.d/postgis_schema.sql
+    ports:
+      - "5432:5432"
+
+  # ----------------------------------------------------
+  # 2. Redis for Caching and Pub/Sub
+  # ----------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: foodtrucks_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # ----------------------------------------------------
+  # 3. FastAPI Application Server
+  # ----------------------------------------------------
+  app:
+    build: .
+    container_name: foodtrucks_api
+    command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    # need to use this in prod to use workers
+    # command: sh -c "gunicorn -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:8000 app.main:app"
+    volumes:
+      - .:/app  # Live code changes for development
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env  # Load environment variables
+    depends_on:
+      - db
+      - redis

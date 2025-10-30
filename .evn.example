@@ -1,0 +1,16 @@
+# --- Database Configuration ---
+DATABASE_URL="{your_db_url}"
+
+# NOTE: These are consumed by the docker-compose 'db' service
+POSTGRES_USER=your_user_name
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=your_db_name
+
+# --- Security and Authentication ---
+SECRET_KEY="{your_secret_key}"
+ALGORITHM="{algorithm_used_for_hashing}"
+ACCESS_TOKEN_EXPIRE_MINUTES=token_expiry_time
+
+# --- Redis Configuration ---
+REDIS_HOST=redis_host_name
+REDIS_PORT=redis_port
